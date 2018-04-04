@@ -6,8 +6,6 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.set("port", PORT);
 
-console.log(process.env.NODE_ENV);
-
 /* Development options */
 if (process.env.NODE_ENV === "development") {
   const webpackConfig = require("../webpack/config.dev");

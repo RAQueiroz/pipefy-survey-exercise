@@ -1,6 +1,8 @@
-const hello = document.createElement("div");
-hello.innerHTML = "Hello from index.js!!!";
-document.body.appendChild(hello);
+import React from "react";
+import { render } from "react-dom";
+import App from "./App";
+
+render(<App />, document.querySelector("#app"));
 
 if (module && module.hot) {
   module.hot.accept();
