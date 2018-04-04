@@ -1,5 +1,6 @@
 import React from "react";
+import Survey from "./Survey";
 
-const App = () => <div>React Supported</div>;
+const App = () => <Survey />;
 
 export default App;
