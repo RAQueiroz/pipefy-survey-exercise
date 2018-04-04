@@ -1,0 +1,11 @@
+{
+  "name": "pipefy-recruitment-survey",
+  "version": "0.0.1",
+  "description": "Pipefy recruitment survey exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bruno C. Couto <brunodev02221@gmail.com>",
+  "license": "MIT"
+}
