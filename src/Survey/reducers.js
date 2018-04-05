@@ -68,3 +68,16 @@ export const surveySubmitResponseReducer = (state = null, action) => {
       return state;
   }
 };
+
+export const surveySubmitReducer = combineReducers({
+  status: surveySubmitStatusReducer,
+  response: surveySubmitResponseReducer
+});
+
+const surveyReducer = combineReducers({
+  config: surveyConfigReducer,
+  data: surveyDataReducer,
+  submit: surveySubmitResponseReducer
+});
+
+export default surveyReducer;
