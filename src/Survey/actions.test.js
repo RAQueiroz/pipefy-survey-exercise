@@ -1,4 +1,4 @@
-import * as api from "../api";
+import * as api from "./api";
 import { fetchSurveyConfig, updateSurveyData } from "./actions";
 import * as types from "./actionsTypes";
 import thunk from "redux-thunk";
