@@ -34,3 +34,31 @@ export const updateSurveyData = ({ inputId, inputValue }) => ({
   inputId,
   inputValue
 });
+
+const submitSurveyRequest = () => ({
+  type: types.SUBMIT_SURVEY_REQUEST
+});
+
+const submitSurveySuccess = data => ({
+  type: types.SUBMIT_SURVEY_SUCCESS,
+  data
+});
+
+const submitSurveyFailure = error => ({
+  type: types.SUBMIT_SURVEY_FAILURE,
+  error
+});
+
+export const submitSurvey = fields => {
+  return dispatch => {
+    dispatch(submitSurveyRequest());
+    return api
+      .submitSurvey(fields)
+      .then(data => {
+        dispatch(submitSurveySuccess(data));
+      })
+      .catch(error => {
+        dispatch(submitSurveyFailure(error));
+      });
+  };
+};

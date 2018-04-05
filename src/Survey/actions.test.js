@@ -1,5 +1,5 @@
 import * as api from "./api";
-import { fetchSurveyConfig, updateSurveyData } from "./actions";
+import { fetchSurveyConfig, updateSurveyData, submitSurvey } from "./actions";
 import * as types from "./actionsTypes";
 import thunk from "redux-thunk";
 import createMockStore from "redux-mock-store";
@@ -107,6 +107,62 @@ describe("actions", () => {
       };
 
       expect(updateSurveyData({ inputId, inputValue })).toEqual(expectedAction);
+    });
+  });
+
+  describe("submitSurvey", () => {
+    afterEach(() => {
+      // Deletes the mock implementation for the submitSurvey
+      delete api.submitSurvey.impl;
+    });
+
+    it("creates SUBMIT_SURVEY_SUCCESS when success", () => {
+      const data = {};
+
+      // Mocks the api call
+      api.submitSurvey.impl = () => Promise.resolve(data);
+
+      const store = mockStore({});
+      const expectedActions = [
+        { type: types.SUBMIT_SURVEY_REQUEST },
+        { type: types.SUBMIT_SURVEY_SUCCESS, data }
+      ];
+
+      return store
+        .dispatch(
+          submitSurvey([
+            { fieldId: "fieldOne", fieldValue: "valueOne" },
+            { fieldId: "fieldTwo", fieldValue: "valueTwo" },
+            { fieldId: "fieldThree", fieldValue: ["a", "b", "c"] }
+          ])
+        )
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+    });
+
+    it("creates SUBMIT_SURVEY_FAILURE when failure", () => {
+      const error = "An error";
+
+      // Mocks the api call
+      api.submitSurvey.impl = () => Promise.reject(error);
+
+      const store = mockStore({});
+      const expectedActions = [
+        { type: types.SUBMIT_SURVEY_REQUEST },
+        { type: types.SUBMIT_SURVEY_FAILURE, error }
+      ];
+
+      return store
+        .dispatch(
+          submitSurvey([
+            { fieldId: "fieldOne", fieldValue: ["a", "b"] },
+            { fieldId: "fieldTwo", fieldValue: "valueTwo" }
+          ])
+        )
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
     });
   });
 });

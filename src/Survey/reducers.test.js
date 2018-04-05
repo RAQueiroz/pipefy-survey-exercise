@@ -1,7 +1,9 @@
 import {
   surveyConfigStatusReducer,
   surveyConfigValuesReducer,
-  surveyDataReducer
+  surveyDataReducer,
+  surveySubmitStatusReducer,
+  surveySubmitResponseReducer
 } from "./reducers";
 import * as types from "./actionsTypes";
 
@@ -107,4 +109,38 @@ describe("reducers", () => {
       });
     });
   });
+
+  describe("surveySubmitStatusReducer", () => {
+    it("should be null as default", () => {
+      expect(surveySubmitStatusReducer(undefined, {})).toBeNull();
+    });
+
+    it("should be 'submitting' on SUBMIT_SURVEY_REQUEST", () => {
+      expect(
+        surveySubmitStatusReducer(undefined, {
+          type: types.SUBMIT_SURVEY_REQUEST
+        })
+      ).toBe("submitting");
+    });
+
+    it("should be 'fail' when SUBMIT_SURVEY_FAILURE", () => {
+      expect(
+        surveySubmitStatusReducer(undefined, {
+          type: types.SUBMIT_SURVEY_FAILURE,
+          error: "An error"
+        })
+      ).toBe("fail");
+    });
+
+    it("should be 'success' when SUBMIT_SURVEY_SUCCESS", () => {
+      expect(
+        surveySubmitStatusReducer(undefined, {
+          type: types.SUBMIT_SURVEY_SUCCESS,
+          data: {}
+        })
+      ).toBe("success");
+    });
+  });
+
+  describe("surveySubmitResponseReducer", () => {});
 });
