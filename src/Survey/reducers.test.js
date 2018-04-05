@@ -142,5 +142,37 @@ describe("reducers", () => {
     });
   });
 
-  describe("surveySubmitResponseReducer", () => {});
+  describe("surveySubmitResponseReducer", () => {
+    it("should return null as default", () => {
+      expect(surveySubmitResponseReducer(undefined, {})).toBeNull();
+    });
+
+    it("should be null on SUBMIT_SURVEY_REQUEST", () => {
+      expect(
+        surveySubmitResponseReducer(undefined, {
+          type: types.SUBMIT_SURVEY_REQUEST
+        })
+      ).toBeNull();
+    });
+
+    it("should be the response data when SUBMIT_SURVEY_SUCCESS", () => {
+      const data = { responseData: "response data" };
+      expect(
+        surveySubmitResponseReducer(undefined, {
+          type: types.SUBMIT_SURVEY_SUCCESS,
+          data
+        })
+      ).toEqual(data);
+    });
+
+    it("should be response error when SUBMIT_SURVEY_FAILURE", () => {
+      const error = "An error";
+      expect(
+        surveySubmitResponseReducer(undefined, {
+          type: types.SUBMIT_SURVEY_FAILURE,
+          error
+        })
+      ).toEqual(error);
+    });
+  });
 });

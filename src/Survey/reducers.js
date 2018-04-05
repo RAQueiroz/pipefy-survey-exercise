@@ -55,3 +55,16 @@ export const surveySubmitStatusReducer = (state = null, action) => {
       return state;
   }
 };
+
+export const surveySubmitResponseReducer = (state = null, action) => {
+  switch (action.type) {
+    case types.SUBMIT_SURVEY_REQUEST:
+      return null;
+    case types.SUBMIT_SURVEY_FAILURE:
+      return action.error;
+    case types.SUBMIT_SURVEY_SUCCESS:
+      return action.data;
+    default:
+      return state;
+  }
+};
