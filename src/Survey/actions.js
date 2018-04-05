@@ -28,3 +28,9 @@ export const fetchSurveyConfig = () => {
       });
   };
 };
+
+export const updateSurveyData = ({ inputId, inputValue }) => ({
+  type: types.UPDATE_SURVEY_DATA,
+  inputId,
+  inputValue
+});

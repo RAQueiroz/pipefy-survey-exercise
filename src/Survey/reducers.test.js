@@ -1,6 +1,7 @@
 import {
   surveyConfigStatusReducer,
-  surveyConfigValuesReducer
+  surveyConfigValuesReducer,
+  surveyDataReducer
 } from "./reducers";
 import * as types from "./actionsTypes";
 
@@ -66,6 +67,44 @@ describe("reducers", () => {
           error
         })
       ).toBe(error);
+    });
+  });
+
+  describe("surveyDataReducer", () => {
+    it("should return an empty object as default", () => {
+      expect(surveyDataReducer(undefined, {})).toEqual({});
+    });
+
+    it("should create field it doesn't exist", () => {
+      expect(
+        surveyDataReducer(
+          {},
+          {
+            type: types.UPDATE_SURVEY_DATA,
+            fieldId: "newField",
+            fieldValue: "new data"
+          }
+        )
+      ).toEqual({
+        newField: "new data"
+      });
+    });
+
+    it("should replace field value when it already exist", () => {
+      expect(
+        surveyDataReducer(
+          {
+            oldField: "old field value"
+          },
+          {
+            type: types.UPDATE_SURVEY_DATA,
+            fieldId: "oldField",
+            fieldValue: "new field value"
+          }
+        )
+      ).toEqual({
+        oldField: "new field value"
+      });
     });
   });
 });

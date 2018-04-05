@@ -31,3 +31,14 @@ export const surveyConfigReducer = combineReducers({
   status: surveyConfigStatusReducer,
   values: surveyConfigValuesReducer
 });
+
+export const surveyDataReducer = (state = {}, action) => {
+  switch (action.type) {
+    case types.UPDATE_SURVEY_DATA:
+      const newState = Object.assign({}, state);
+      newState[action.fieldId] = action.fieldValue;
+      return newState;
+    default:
+      return state;
+  }
+};

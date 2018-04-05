@@ -1,5 +1,5 @@
 import * as api from "../api";
-import { fetchSurveyConfig } from "./actions";
+import { fetchSurveyConfig, updateSurveyData } from "./actions";
 import * as types from "./actionsTypes";
 import thunk from "redux-thunk";
 import createMockStore from "redux-mock-store";
@@ -93,6 +93,20 @@ describe("actions", () => {
       return store.dispatch(fetchSurveyConfig()).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
+    });
+  });
+
+  describe("updateSurveyData", () => {
+    it("creates UPDATE_SURVEY_DATA", () => {
+      const inputId = "inputId";
+      const inputValue = "inputValue";
+      const expectedAction = {
+        type: types.UPDATE_SURVEY_DATA,
+        inputId,
+        inputValue
+      };
+
+      expect(updateSurveyData({ inputId, inputValue })).toEqual(expectedAction);
     });
   });
 });
