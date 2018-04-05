@@ -21,7 +21,7 @@ describe("reducers", () => {
       ).toBe("loading");
     });
 
-    it("should be 'failure' on FETCH_SURVEY_CONFIG_FAILURE", () => {
+    it("should be 'fail' on FETCH_SURVEY_CONFIG_FAILURE", () => {
       expect(
         surveyConfigStatusReducer(undefined, {
           type: types.FETCH_SURVEY_CONFIG_FAILURE
