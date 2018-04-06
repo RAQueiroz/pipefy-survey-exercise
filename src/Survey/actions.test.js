@@ -16,53 +16,51 @@ describe("actions", () => {
     it("creates FETCH_SURVEY_CONFIG_SUCCESS when success", () => {
       // Mocks the response of the fetchSurveyConfig api call
       const data = {
-        data: {
-          publicForm: {
-            publicFormSettings: {
-              organizationName: "Pipefy Recruitment Test",
-              submitButtonText: "Submit",
-              title: "Recruitment Survey"
+        publicForm: {
+          publicFormSettings: {
+            organizationName: "Pipefy Recruitment Test",
+            submitButtonText: "Submit",
+            title: "Recruitment Survey"
+          },
+          formFields: [
+            {
+              id: "your_name",
+              label: "Your name",
+              __typename: "ShortTextField"
             },
-            formFields: [
-              {
-                id: "your_name",
-                label: "Your name",
-                __typename: "ShortTextField"
-              },
-              {
-                id: "your_bio",
-                label: "Your Bio",
-                __typename: "LongTextField"
-              },
-              {
-                id: "primary_skill",
-                label: "Primary Skill",
-                options: [
-                  "Structured Programming",
-                  "Object-oriented Programming",
-                  "Functional Programming"
-                ],
-                __typename: "SelectField"
-              },
-              {
-                id: "javascript_library_of_choice",
-                label: "Javascript library of choice",
-                options: ["React", "Angular", "Vue"],
-                __typename: "RadioVerticalField"
-              },
-              {
-                id: "additional_experience",
-                label: "Additional Experience",
-                options: ["TDD", "Heroku", "Github"],
-                __typename: "ChecklistVerticalField"
-              },
-              {
-                id: "start_date",
-                label: "Start Date",
-                __typename: "DateField"
-              }
-            ]
-          }
+            {
+              id: "your_bio",
+              label: "Your Bio",
+              __typename: "LongTextField"
+            },
+            {
+              id: "primary_skill",
+              label: "Primary Skill",
+              options: [
+                "Structured Programming",
+                "Object-oriented Programming",
+                "Functional Programming"
+              ],
+              __typename: "SelectField"
+            },
+            {
+              id: "javascript_library_of_choice",
+              label: "Javascript library of choice",
+              options: ["React", "Angular", "Vue"],
+              __typename: "RadioVerticalField"
+            },
+            {
+              id: "additional_experience",
+              label: "Additional Experience",
+              options: ["TDD", "Heroku", "Github"],
+              __typename: "ChecklistVerticalField"
+            },
+            {
+              id: "start_date",
+              label: "Start Date",
+              __typename: "DateField"
+            }
+          ]
         }
       };
 
@@ -122,7 +120,7 @@ describe("actions", () => {
       // Mocks the api call
       api.submitSurvey.impl = () => Promise.resolve(data);
 
-      const store = mockStore({});
+      const store = mockStore({ survey: {} });
       const expectedActions = [
         { type: types.SUBMIT_SURVEY_REQUEST },
         { type: types.SUBMIT_SURVEY_SUCCESS, data }
@@ -147,7 +145,7 @@ describe("actions", () => {
       // Mocks the api call
       api.submitSurvey.impl = () => Promise.reject(error);
 
-      const store = mockStore({});
+      const store = mockStore({ survey: {} });
       const expectedActions = [
         { type: types.SUBMIT_SURVEY_REQUEST },
         { type: types.SUBMIT_SURVEY_FAILURE, error }

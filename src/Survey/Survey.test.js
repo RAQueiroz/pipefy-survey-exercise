@@ -69,11 +69,9 @@ describe("Survey", () => {
           surveyConfig={{
             status: "success",
             data: {
-              data: {
-                publicForm: {
-                  publicFormSettings: {},
-                  formFields: []
-                }
+              publicForm: {
+                publicFormSettings: {},
+                formFields: []
               }
             }
           }}
@@ -103,11 +101,9 @@ describe("Survey", () => {
         surveyConfig: {
           status: "success",
           data: {
-            data: {
-              publicForm: {
-                formFields,
-                publicFormSettings: {}
-              }
+            publicForm: {
+              formFields,
+              publicFormSettings: {}
             }
           }
         }
@@ -193,14 +189,12 @@ describe("Survey", () => {
         surveyConfig={{
           status: "success",
           data: {
-            data: {
-              publicForm: {
-                publicFormSettings: {},
-                formFields: [
-                  { __typename: "ShortTextField", id: "short" },
-                  { __typename: "LongTextField", id: "long" }
-                ]
-              }
+            publicForm: {
+              publicFormSettings: {},
+              formFields: [
+                { __typename: "ShortTextField", id: "short" },
+                { __typename: "LongTextField", id: "long" }
+              ]
             }
           }
         }}
@@ -222,14 +216,12 @@ describe("Survey", () => {
         surveyConfig={{
           status: "success",
           data: {
-            data: {
-              publicForm: {
-                publicFormSettings: {},
-                formFields: [
-                  { __typename: "ShortTextField", id: "short" },
-                  { __typename: "LongTextField", id: "long" }
-                ]
-              }
+            publicForm: {
+              publicFormSettings: {},
+              formFields: [
+                { __typename: "ShortTextField", id: "short" },
+                { __typename: "LongTextField", id: "long" }
+              ]
             }
           }
         }}

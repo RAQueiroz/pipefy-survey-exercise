@@ -49,8 +49,16 @@ const submitSurveyFailure = error => ({
   error
 });
 
-export const submitSurvey = fields => {
-  return dispatch => {
+export const submitSurvey = () => {
+  return (dispatch, getState) => {
+    const surveyData = getState().survey.data;
+    const fields = [];
+
+    // Convert survey data into fields array
+    for (const key in surveyData) {
+      fields.push({ fieldId: key, fieldValue: surveyData[key] });
+    }
+
     dispatch(submitSurveyRequest());
     return api
       .submitSurvey(fields)

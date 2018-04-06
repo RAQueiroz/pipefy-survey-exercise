@@ -45,7 +45,7 @@ export class Survey extends Component {
     if (surveyConfig.status === "loading") return <LoadingContainer />;
     if (surveyConfig.status === "fail") return <LoadingFailContainer />;
     if (surveyConfig.status === "success") {
-      const publicForm = surveyConfig.data.data.publicForm;
+      const publicForm = surveyConfig.data.publicForm;
       return (
         <section className="Survey">
           <SurveyDescription
@@ -127,16 +127,22 @@ export const SurveyForm = ({
   return (
     <form onSubmit={submitForm} className="SurveyForm">
       {fields}
-      <Button className="SubmitButton" appearance={"primary"}>
+      <Button className="SubmitButton" appearance={"primary"} type="submit">
         {submitButtonText}
       </Button>
     </form>
   );
 };
 
-export const LoadingContainer = () => <div>Loading</div>;
+export const LoadingContainer = () => (
+  <div className="LoadingContainer">Fetching survey data...</div>
+);
 
-export const LoadingFailContainer = () => <div>Error</div>;
+export const LoadingFailContainer = () => (
+  <div className="FailContainer">
+    An error ocurred during the survey data fetching!
+  </div>
+);
 
 export const ShortTextField = ({ onChange, value, ...rest }) => (
   <FieldTextStateless
@@ -167,7 +173,8 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchSurveyConfig: () => dispatch(actions.fetchSurveyConfig()),
     updateSurveyData: (fieldId, fieldValue) =>
-      dispatch(actions.updateSurveyData(fieldId, fieldValue))
+      dispatch(actions.updateSurveyData(fieldId, fieldValue)),
+    submitSurvey: fields => dispatch(actions.submitSurvey(fields))
   };
 }
 

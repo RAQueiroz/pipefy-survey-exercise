@@ -36,6 +36,16 @@
   margin-top: 24px;
 }
 
+.FailContainer,
+.LoadingContainer {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-align: center;
+}
+
 @media (min-width: 600px) {
   .Survey {
     flex-direction: row;
