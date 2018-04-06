@@ -1,5 +1,7 @@
 import React from "react";
+import "./App.css";
 import "@atlaskit/css-reset";
+import Container from "./components/Container";
 import Survey from "./Survey";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -62,7 +64,9 @@ fetchSurveyConfig.impl = () => Promise.resolve(fakeData);
 
 const App = () => (
   <Provider store={store}>
-    <Survey />
+    <Container>
+      <Survey />
+    </Container>
   </Provider>
 );
 

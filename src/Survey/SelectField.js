@@ -33,6 +33,7 @@ class SelectField extends Component {
   render() {
     return (
       <StatelessSelect
+        shouldFitContainer={true}
         id={this.props.id}
         label={this.props.label}
         isOpen={this.state.isOpen}

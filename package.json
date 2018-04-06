@@ -5,10 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development node server",
-    "build": "NODE_ENV=production webpack-cli --config ./webpack/config.prod.js",
+    "build":
+      "NODE_ENV=production webpack-cli --config ./webpack/config.prod.js",
     "start:prod": "npm run build && NODE_ENV=production node server",
     "test:": "jest",
     "test:watch": "jest --watch"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/src/test/styleMock.js"
+    }
   },
   "author": "Bruno C. Couto <brunodev02221@gmail.com>",
   "license": "MIT",

@@ -282,3 +282,61 @@ section {
   width: 1px !important;
   white-space: nowrap !important;
 }
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  min-height: 100%;
+  background: #eee;
+}
+.Container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.Survey {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.SurveyDescription {
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  background: white;
+  margin: 12px;
+}
+
+.SurveyDescription h1 {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.SurveyDescription h2 {
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.SurveyForm {
+  flex-grow: 1;
+  padding: 12px;
+  margin: 12px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.SubmitButton {
+  margin-top: 24px;
+}
+
+@media (min-width: 600px) {
+  .Survey {
+    flex-direction: row;
+    align-items: start;
+    align-content: start;
+  }
+}

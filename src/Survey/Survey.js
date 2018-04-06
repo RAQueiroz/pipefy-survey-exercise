@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./Survey.css";
 import PropTypes from "prop-types";
 import { FieldTextStateless } from "@atlaskit/field-text";
 import { FieldTextAreaStateless } from "@atlaskit/field-text-area";
@@ -30,6 +31,7 @@ export class Survey extends Component {
   constructor(props) {
     super(props);
     this.onInputFieldChange = this.onInputFieldChange.bind(this);
+    this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
   componentDidMount() {
@@ -45,7 +47,7 @@ export class Survey extends Component {
     if (surveyConfig.status === "success") {
       const publicForm = surveyConfig.data.data.publicForm;
       return (
-        <section>
+        <section className="Survey">
           <SurveyDescription
             organizationName={publicForm.publicFormSettings.organizationName}
             title={publicForm.publicFormSettings.title}
@@ -53,11 +55,10 @@ export class Survey extends Component {
           <SurveyForm
             formFields={publicForm.formFields}
             surveyData={surveyData}
+            submitButtonText={publicForm.publicFormSettings.submitButtonText}
             onInputFieldChange={this.onInputFieldChange}
+            onSubmitSurvey={this.onSubmitForm}
           />
-          <Button appearance={"primary"}>
-            {publicForm.publicFormSettings.submitButtonText}
-          </Button>
         </section>
       );
     }
@@ -94,13 +95,24 @@ function buildFormField(type) {
 }
 
 export const SurveyDescription = ({ organizationName, title }) => (
-  <div>
-    <div>{organizationName}</div>
-    <div>{title}</div>
+  <div className="SurveyDescription">
+    <h1>{organizationName}</h1>
+    <h2>{title}</h2>
   </div>
 );
 
-export const SurveyForm = ({ formFields, surveyData, onInputFieldChange }) => {
+export const SurveyForm = ({
+  formFields,
+  surveyData,
+  submitButtonText,
+  onInputFieldChange,
+  onSubmitSurvey
+}) => {
+  const submitForm = e => {
+    e.preventDefault();
+    onSubmitSurvey();
+  };
+
   const fields = formFields.map(({ __typename: type, ...props }) => {
     const FormField = buildFormField(type);
     return (
@@ -112,7 +124,14 @@ export const SurveyForm = ({ formFields, surveyData, onInputFieldChange }) => {
       />
     );
   });
-  return <form>{fields}</form>;
+  return (
+    <form onSubmit={submitForm} className="SurveyForm">
+      {fields}
+      <Button className="SubmitButton" appearance={"primary"}>
+        {submitButtonText}
+      </Button>
+    </form>
+  );
 };
 
 export const LoadingContainer = () => <div>Loading</div>;
@@ -122,6 +141,7 @@ export const LoadingFailContainer = () => <div>Error</div>;
 export const ShortTextField = ({ onChange, value, ...rest }) => (
   <FieldTextStateless
     {...rest}
+    shouldFitContainer={true}
     value={value}
     onChange={e => onChange(rest.id, e.target.value)}
   />
@@ -130,6 +150,7 @@ export const ShortTextField = ({ onChange, value, ...rest }) => (
 export const LongTextField = ({ onChange, value, ...rest }) => (
   <FieldTextAreaStateless
     {...rest}
+    shouldFitContainer={true}
     value={value}
     onChange={e => onChange(rest.id, e.target.value)}
   />
