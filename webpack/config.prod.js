@@ -15,5 +15,8 @@ module.exports = merge(common, {
       }
     ]
   },
+  optimization: {
+    minimize: true
+  },
   plugins: [extractCss]
 });

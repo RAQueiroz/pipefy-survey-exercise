@@ -1,5 +1,5 @@
 import React from "react";
-import Enzyme, { shallow } from "enzyme";
+import Enzyme, { shallow, mount } from "enzyme";
 import EnzymeReactAdapter from "enzyme-adapter-react-16";
 import {
   Survey,
@@ -8,7 +8,12 @@ import {
   Select,
   RadioGroupField,
   ChecklistField,
-  DateField
+  DateField,
+  LoadingContainer,
+  LoadingFailContainer,
+  SurveyForm,
+  SurveyDescription,
+  SubmitButton
 } from "./Survey";
 
 Enzyme.configure({
@@ -16,15 +21,92 @@ Enzyme.configure({
 });
 
 describe("Survey", () => {
+  describe("when surveyConfig is not loaded yet", () => {
+    it("does not render anything", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: null
+          }}
+        />
+      );
+      expect(wrapper.children().length).toBe(0);
+    });
+  });
+
+  describe("when surveyConfig is loading", () => {
+    it("renders a loading container", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: "loading"
+          }}
+        />
+      );
+      expect(wrapper.find(LoadingContainer).length).toBe(1);
+    });
+  });
+
+  describe("when surveyConfig is loaded with fail", () => {
+    it("renders a error container", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: "fail"
+          }}
+        />
+      );
+      expect(wrapper.find(LoadingFailContainer).length).toBe(1);
+    });
+  });
+
+  describe("when surveyConfig is loaded with success", () => {
+    let wrapper;
+
+    function buildWrapper(method = shallow) {
+      return method(
+        <Survey
+          surveyConfig={{
+            status: "success",
+            data: {
+              data: {
+                publicForm: {
+                  publicFormSettings: {},
+                  formFields: []
+                }
+              }
+            }
+          }}
+        />
+      );
+    }
+
+    it("renders a SurveyForm", () => {
+      wrapper = buildWrapper();
+      expect(wrapper.find(SurveyForm).length).toBe(1);
+    });
+
+    it("renders a SurveyDescription", () => {
+      wrapper = buildWrapper();
+      expect(wrapper.find(SurveyDescription).length).toBe(1);
+    });
+
+    it("renders a SubmitButton", () => {
+      wrapper = buildWrapper(mount);
+      expect(wrapper.find("button").length).toBe(1);
+    });
+  });
+
   describe("rendering components", () => {
-    function rendersSurvey(formFields = [], method = shallow) {
+    function rendersSurvey(formFields = [], method = mount) {
       const props = {
         surveyConfig: {
           status: "success",
           data: {
             data: {
               publicForm: {
-                formFields
+                formFields,
+                publicFormSettings: {}
               }
             }
           }
@@ -113,6 +195,7 @@ describe("Survey", () => {
           data: {
             data: {
               publicForm: {
+                publicFormSettings: {},
                 formFields: [
                   { __typename: "ShortTextField", id: "short" },
                   { __typename: "LongTextField", id: "long" }
@@ -141,6 +224,7 @@ describe("Survey", () => {
           data: {
             data: {
               publicForm: {
+                publicFormSettings: {},
                 formFields: [
                   { __typename: "ShortTextField", id: "short" },
                   { __typename: "LongTextField", id: "long" }

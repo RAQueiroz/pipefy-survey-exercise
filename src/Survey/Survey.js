@@ -6,6 +6,7 @@ import SelectField from "./SelectField";
 import RadioGroupField from "./RadioGroupField";
 import ChecklistField from "./ChecklistField";
 import DateField from "./DateField";
+import Button from "@atlaskit/button";
 import { connect } from "react-redux";
 import * as actions from "./actions";
 
@@ -39,23 +40,29 @@ export class Survey extends Component {
     // Dynamically creates the form fields based on the formFields property
     const { surveyConfig, surveyData } = this.props;
 
-    if (surveyConfig.status === null) return null;
-    if (surveyConfig.status === "fail") return "Fail";
-    if (surveyConfig.status === "loading") return "Loading";
-
-    const formFields = surveyConfig.data.data.publicForm.formFields;
-    const fields = formFields.map(({ __typename: type, ...props }) => {
-      const FormField = getFormField(type);
+    if (surveyConfig.status === "loading") return <LoadingContainer />;
+    if (surveyConfig.status === "fail") return <LoadingFailContainer />;
+    if (surveyConfig.status === "success") {
+      const publicForm = surveyConfig.data.data.publicForm;
       return (
-        <FormField
-          key={props.id}
-          value={surveyData[props.id]}
-          onChange={this.onInputFieldChange}
-          {...props}
-        />
+        <section>
+          <SurveyDescription
+            organizationName={publicForm.publicFormSettings.organizationName}
+            title={publicForm.publicFormSettings.title}
+          />
+          <SurveyForm
+            formFields={publicForm.formFields}
+            surveyData={surveyData}
+            onInputFieldChange={this.onInputFieldChange}
+          />
+          <Button appearance={"primary"}>
+            {publicForm.publicFormSettings.submitButtonText}
+          </Button>
+        </section>
       );
-    });
-    return <form>{fields}</form>;
+    }
+
+    return null;
   }
 
   onInputFieldChange(fieldId, fieldValue) {
@@ -67,7 +74,7 @@ export class Survey extends Component {
   }
 }
 
-function getFormField(type) {
+function buildFormField(type) {
   switch (type) {
     case "ShortTextField":
       return ShortTextField;
@@ -85,6 +92,32 @@ function getFormField(type) {
       return null;
   }
 }
+
+export const SurveyDescription = ({ organizationName, title }) => (
+  <div>
+    <div>{organizationName}</div>
+    <div>{title}</div>
+  </div>
+);
+
+export const SurveyForm = ({ formFields, surveyData, onInputFieldChange }) => {
+  const fields = formFields.map(({ __typename: type, ...props }) => {
+    const FormField = buildFormField(type);
+    return (
+      <FormField
+        key={props.id}
+        value={surveyData[props.id]}
+        onChange={onInputFieldChange}
+        {...props}
+      />
+    );
+  });
+  return <form>{fields}</form>;
+};
+
+export const LoadingContainer = () => <div>Loading</div>;
+
+export const LoadingFailContainer = () => <div>Error</div>;
 
 export const ShortTextField = ({ onChange, value, ...rest }) => (
   <FieldTextStateless
