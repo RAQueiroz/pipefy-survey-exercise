@@ -8,13 +8,11 @@ module.exports = {
     publicPath: "/"
   },
   module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, use: "babel-loader" }
-    ]
+    rules: [{ test: /\.js$/, exclude: /node_modules/, use: "babel-loader" }]
   },
   plugins: [
     new CleanWebpackPlugin(["../dist", "../build"], {
       allowExternal: true
     })
   ]
-}
+};

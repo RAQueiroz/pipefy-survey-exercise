@@ -98,15 +98,15 @@ describe("actions", () => {
 
   describe("updateSurveyData", () => {
     it("creates UPDATE_SURVEY_DATA", () => {
-      const inputId = "inputId";
-      const inputValue = "inputValue";
+      const fieldId = "inputId";
+      const fieldValue = "inputValue";
       const expectedAction = {
         type: types.UPDATE_SURVEY_DATA,
-        inputId,
-        inputValue
+        fieldId,
+        fieldValue
       };
 
-      expect(updateSurveyData({ inputId, inputValue })).toEqual(expectedAction);
+      expect(updateSurveyData(fieldId, fieldValue)).toEqual(expectedAction);
     });
   });
 

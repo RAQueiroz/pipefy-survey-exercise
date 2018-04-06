@@ -29,7 +29,7 @@ export const surveyConfigValuesReducer = (state = null, action) => {
 
 export const surveyConfigReducer = combineReducers({
   status: surveyConfigStatusReducer,
-  values: surveyConfigValuesReducer
+  data: surveyConfigValuesReducer
 });
 
 export const surveyDataReducer = (state = {}, action) => {

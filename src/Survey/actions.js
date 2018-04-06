@@ -21,18 +21,18 @@ export const fetchSurveyConfig = () => {
     return api
       .fetchSurveyConfig()
       .then(data => {
-        dispatch(fetchSurveyConfigSuccess(data));
+        return dispatch(fetchSurveyConfigSuccess(data));
       })
       .catch(error => {
-        dispatch(fetchSurveyConfigFailure(error));
+        return dispatch(fetchSurveyConfigFailure(error));
       });
   };
 };
 
-export const updateSurveyData = ({ inputId, inputValue }) => ({
+export const updateSurveyData = (fieldId, fieldValue) => ({
   type: types.UPDATE_SURVEY_DATA,
-  inputId,
-  inputValue
+  fieldId,
+  fieldValue
 });
 
 const submitSurveyRequest = () => ({
