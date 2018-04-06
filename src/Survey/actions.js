@@ -35,6 +35,10 @@ export const updateSurveyData = (fieldId, fieldValue) => ({
   fieldValue
 });
 
+export const resetSurveyData = () => ({
+  type: types.RESET_SURVEY_DATA
+});
+
 const submitSurveyRequest = () => ({
   type: types.SUBMIT_SURVEY_REQUEST
 });
@@ -70,3 +74,7 @@ export const submitSurvey = () => {
       });
   };
 };
+
+export const resetSubmitStatus = () => ({
+  type: types.RESET_SUBMIT_STATUS
+});

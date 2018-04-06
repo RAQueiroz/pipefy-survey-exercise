@@ -1,5 +1,11 @@
 import * as api from "./api";
-import { fetchSurveyConfig, updateSurveyData, submitSurvey } from "./actions";
+import {
+  fetchSurveyConfig,
+  updateSurveyData,
+  submitSurvey,
+  resetSurveyData,
+  resetSubmitStatus
+} from "./actions";
 import * as types from "./actionsTypes";
 import thunk from "redux-thunk";
 import createMockStore from "redux-mock-store";
@@ -105,6 +111,22 @@ describe("actions", () => {
       };
 
       expect(updateSurveyData(fieldId, fieldValue)).toEqual(expectedAction);
+    });
+  });
+
+  describe("resetSurveyData", () => {
+    it("creates RESET_SURVEY_DATA", () => {
+      expect(resetSurveyData()).toEqual({
+        type: types.RESET_SURVEY_DATA
+      });
+    });
+  });
+
+  describe("resetSubmitData", () => {
+    it("creates RESET_SUBMIT_STATUS", () => {
+      expect(resetSubmitStatus()).toEqual({
+        type: types.RESET_SUBMIT_STATUS
+      });
     });
   });
 

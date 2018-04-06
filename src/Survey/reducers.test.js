@@ -108,6 +108,19 @@ describe("reducers", () => {
         oldField: "new field value"
       });
     });
+
+    it("should handle RESET_SURVEY_DATA", () => {
+      expect(
+        surveyDataReducer(
+          {
+            oldData: "old data"
+          },
+          {
+            type: types.RESET_SURVEY_DATA
+          }
+        )
+      ).toEqual({});
+    });
   });
 
   describe("surveySubmitStatusReducer", () => {
@@ -140,11 +153,19 @@ describe("reducers", () => {
         })
       ).toBe("success");
     });
+
+    it("should handle RESET_SUBMIT_STATUS", () => {
+      expect(
+        surveySubmitStatusReducer("some status", {
+          type: types.RESET_SUBMIT_STATUS
+        })
+      ).toEqual(null);
+    });
   });
 
   describe("surveySubmitResponseReducer", () => {
     it("should return null as default", () => {
-      expect(surveySubmitResponseReducer(undefined, {})).toBeNull();
+      expect(surveySubmitResponseReducer(undefined, {})).toEqual({});
     });
 
     it("should be null on SUBMIT_SURVEY_REQUEST", () => {
@@ -152,7 +173,7 @@ describe("reducers", () => {
         surveySubmitResponseReducer(undefined, {
           type: types.SUBMIT_SURVEY_REQUEST
         })
-      ).toBeNull();
+      ).toEqual({});
     });
 
     it("should be the response data when SUBMIT_SURVEY_SUCCESS", () => {

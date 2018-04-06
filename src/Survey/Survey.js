@@ -15,23 +15,32 @@ export class Survey extends Component {
   static propTypes = {
     survey: PropTypes.array.isRequired,
     surveyData: PropTypes.object.isRequired,
+    surveySubmit: PropTypes.object.isRequired,
     fetchSurveyConfig: PropTypes.func.isRequired,
     updateSurveyData: PropTypes.func.isRequired,
-    submitSurvey: PropTypes.func.isRequired
+    resetSurveyData: PropTypes.func.isRequired,
+    submitSurvey: PropTypes.func.isRequired,
+    resetSubmitStatus: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     survey: [],
     surveyData: {},
+    surveySubmit: {},
     fetchSurveyConfig: () => {},
     updateSurveyData: () => {},
-    submitSurvey: () => {}
+    resetSurveyData: () => {},
+    submitSurvey: () => {},
+    resetSubmitStatus: () => {}
   };
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.onInputFieldChange = this.onInputFieldChange.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
+    this._handleCloseSubmitSuccess = this._handleCloseSubmitSuccess.bind(this);
+    this._handleCloseSubmitFail = this._handleCloseSubmitFail.bind(this);
   }
 
   componentDidMount() {
@@ -40,11 +49,29 @@ export class Survey extends Component {
 
   render() {
     // Dynamically creates the form fields based on the formFields property
-    const { surveyConfig, surveyData } = this.props;
+    const { surveyConfig, surveyData, surveySubmit } = this.props;
 
     if (surveyConfig.status === "loading") return <LoadingContainer />;
     if (surveyConfig.status === "fail") return <LoadingFailContainer />;
+
     if (surveyConfig.status === "success") {
+      if (surveySubmit.status === "submitting")
+        return <SurveySubmittingContainer />;
+
+      if (surveySubmit.status === "fail")
+        return (
+          <SurveySubmitFailContainer
+            onRequestClose={this._handleCloseSubmitFail}
+          />
+        );
+
+      if (surveySubmit.status === "success")
+        return (
+          <SurveySubmitSuccessContainer
+            onRequestClose={this._handleCloseSubmitSuccess}
+          />
+        );
+
       const publicForm = surveyConfig.data.publicForm;
       return (
         <section className="Survey">
@@ -64,6 +91,15 @@ export class Survey extends Component {
     }
 
     return null;
+  }
+
+  _handleCloseSubmitSuccess() {
+    this.props.resetSurveyData();
+    this.props.resetSubmitStatus();
+  }
+
+  _handleCloseSubmitFail() {
+    this.props.resetSubmitStatus();
   }
 
   onInputFieldChange(fieldId, fieldValue) {
@@ -144,6 +180,26 @@ export const LoadingFailContainer = () => (
   </div>
 );
 
+export const SurveySubmittingContainer = () => (
+  <div className="SurveySubmittingContainer">
+    <h1>Submitting your survey...</h1>
+  </div>
+);
+
+export const SurveySubmitSuccessContainer = ({ onRequestClose }) => (
+  <div className="SurveySubmitSuccessContainer">
+    <h1>Survey submitted with success!</h1>
+    <Button onClick={onRequestClose}>Close</Button>
+  </div>
+);
+
+export const SurveySubmitFailContainer = ({ onRequestClose }) => (
+  <div className="SurveySubmitFailContainer">
+    <h1>An error ocurred during your submission.</h1>
+    <Button onClick={onRequestClose}>Try again!</Button>
+  </div>
+);
+
 export const ShortTextField = ({ onChange, value, ...rest }) => (
   <FieldTextStateless
     {...rest}
@@ -165,7 +221,8 @@ export const LongTextField = ({ onChange, value, ...rest }) => (
 function mapStateToProps(state) {
   return {
     surveyConfig: state.survey.config,
-    surveyData: state.survey.data
+    surveyData: state.survey.data,
+    surveySubmit: state.survey.submit
   };
 }
 
@@ -174,7 +231,9 @@ function mapDispatchToProps(dispatch) {
     fetchSurveyConfig: () => dispatch(actions.fetchSurveyConfig()),
     updateSurveyData: (fieldId, fieldValue) =>
       dispatch(actions.updateSurveyData(fieldId, fieldValue)),
-    submitSurvey: fields => dispatch(actions.submitSurvey(fields))
+    resetSurveyData: () => dispatch(actions.resetSurveyData()),
+    submitSurvey: fields => dispatch(actions.submitSurvey(fields)),
+    resetSubmitStatus: () => dispatch(actions.resetSubmitStatus())
   };
 }
 

@@ -13,7 +13,10 @@ import {
   LoadingFailContainer,
   SurveyForm,
   SurveyDescription,
-  SubmitButton
+  SubmitButton,
+  SurveySubmittingContainer,
+  SurveySubmitSuccessContainer,
+  SurveySubmitFailContainer
 } from "./Survey";
 
 Enzyme.configure({
@@ -92,6 +95,72 @@ describe("Survey", () => {
     it("renders a SubmitButton", () => {
       wrapper = buildWrapper(mount);
       expect(wrapper.find("button").length).toBe(1);
+    });
+  });
+
+  describe("when survey is being submitted", () => {
+    it("renders a SurveySubmittingContainer", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: "success",
+            data: {
+              publicForm: {
+                publicFormSettings: {},
+                formFields: []
+              }
+            }
+          }}
+          surveySubmit={{
+            status: "submitting"
+          }}
+        />
+      );
+      expect(wrapper.find(SurveySubmittingContainer).length).toBe(1);
+    });
+  });
+
+  describe("when survey has been submitted with success", () => {
+    it("renders a SurveySubmitSuccessContainer", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: "success",
+            data: {
+              publicForm: {
+                publicFormSettings: {},
+                formFields: []
+              }
+            }
+          }}
+          surveySubmit={{
+            status: "success"
+          }}
+        />
+      );
+      expect(wrapper.find(SurveySubmitSuccessContainer).length).toBe(1);
+    });
+  });
+
+  describe("when survey has beed submitted with fail", () => {
+    it("renders a SurveySubmitFailContainer", () => {
+      const wrapper = shallow(
+        <Survey
+          surveyConfig={{
+            status: "success",
+            data: {
+              publicForm: {
+                publicFormSettings: {},
+                formFields: []
+              }
+            }
+          }}
+          surveySubmit={{
+            status: "fail"
+          }}
+        />
+      );
+      expect(wrapper.find(SurveySubmitFailContainer).length).toBe(1);
     });
   });
 

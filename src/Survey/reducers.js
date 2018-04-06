@@ -34,6 +34,8 @@ export const surveyConfigReducer = combineReducers({
 
 export const surveyDataReducer = (state = {}, action) => {
   switch (action.type) {
+    case types.RESET_SURVEY_DATA:
+      return {};
     case types.UPDATE_SURVEY_DATA:
       const newState = Object.assign({}, state);
       newState[action.fieldId] = action.fieldValue;
@@ -45,6 +47,8 @@ export const surveyDataReducer = (state = {}, action) => {
 
 export const surveySubmitStatusReducer = (state = null, action) => {
   switch (action.type) {
+    case types.RESET_SUBMIT_STATUS:
+      return null;
     case types.SUBMIT_SURVEY_REQUEST:
       return "submitting";
     case types.SUBMIT_SURVEY_FAILURE:
@@ -56,10 +60,10 @@ export const surveySubmitStatusReducer = (state = null, action) => {
   }
 };
 
-export const surveySubmitResponseReducer = (state = null, action) => {
+export const surveySubmitResponseReducer = (state = {}, action) => {
   switch (action.type) {
     case types.SUBMIT_SURVEY_REQUEST:
-      return null;
+      return {};
     case types.SUBMIT_SURVEY_FAILURE:
       return action.error;
     case types.SUBMIT_SURVEY_SUCCESS:
@@ -77,7 +81,7 @@ export const surveySubmitReducer = combineReducers({
 const surveyReducer = combineReducers({
   config: surveyConfigReducer,
   data: surveyDataReducer,
-  submit: surveySubmitResponseReducer
+  submit: surveySubmitReducer
 });
 
 export default surveyReducer;

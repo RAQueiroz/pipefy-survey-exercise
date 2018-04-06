@@ -343,6 +343,29 @@ body {
   text-align: center;
 }
 
+.SurveySubmittingContainer,
+.SurveySubmitFailContainer,
+.SurveySubmitSuccessContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.SurveySubmitFailContainer button,
+.SurveySubmitSuccessContainer button {
+  margin-top: 24px;
+}
+
+.SurveySubmitFailContainer h1 {
+  color: #c25461;
+}
+
+.SurveySubmitSuccessContainer h1 {
+  color: #5fa97f;
+}
+
 @media (min-width: 600px) {
   .Survey {
     flex-direction: row;
