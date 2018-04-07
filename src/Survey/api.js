@@ -51,7 +51,6 @@ export const fetchSurveyConfig = () => {
     }
   `;
 
-  // TODO: implement real api call
   return request(ENTRY_POINT, query);
 };
 
